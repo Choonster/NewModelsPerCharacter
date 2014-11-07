@@ -2,7 +2,7 @@
 ## Interface: 60000
 ## Author: Choonster
 ## Notes: Allows you to enable and disable the new character models per-character.
-## Version: 1.0
+## Version: 1.1
 ## SavedVariablesPerCharacter: NEWCHARMODELS_ENABLED
 
 core.lua

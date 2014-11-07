@@ -6,8 +6,6 @@ local DEFAULT_ENABLED_STATE = true
 -------------------
 -- Do not change anything below here!
 
-local addon, ns = ...
-
 local function UpdateModelsEnabled()
 	SetCVar("hdPlayerModels", NEWCHARMODELS_ENABLED and 1 or 0)
 end
@@ -17,17 +15,17 @@ f:SetScript("OnEvent", function(self, event, ...)
 	self[event](self, ...)
 end)
 
-f:RegisterEvent("ADDON_LOADED")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("PLAYER_LOGOUT")
 
-function f:ADDON_LOADED(name)
-	if name == addon then
-		if NEWCHARMODELS_ENABLED == nil then -- First time the AddOn has been loaded on this character, use the default enabled state.
-			NEWCHARMODELS_ENABLED = DEFAULT_ENABLED_STATE
-		end
-		
-		UpdateModelsEnabled()
+function f:PLAYER_ENTERING_WORLD()
+	if NEWCHARMODELS_ENABLED == nil then -- First time the AddOn has been loaded on this character, use the default enabled state.
+		NEWCHARMODELS_ENABLED = DEFAULT_ENABLED_STATE
 	end
+	
+	UpdateModelsEnabled()
+	
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD") -- We only care about this event the first time it fires
 end
 
 function f:PLAYER_LOGOUT() -- Restore the default setting when the player logs out
